@@ -635,15 +635,14 @@ def lnDifErf(z1,z2):
     logdiferf = np.zeros(z1.shape)        
     ind = np.where(z1>0.)[0]
     ind2 = np.where(z1<=0.)[0]
-    if ind[0].shape > 0:
-        z1i = z1[ind]
-        z12 = z1i*z1i
-        z2i = z2[ind]
-        logdiferf[ind] = -z12 + np.log(erfcx(z1i) - erfcx(z2i)*np.exp(z12-z2i**2))
     
-    if ind2[0].shape > 0:
-        z1i = z1[ind2]
-        z2i = z2[ind2]
-        logdiferf[ind2] = np.log(erf(z2i) - erf(z1i))
+    z1i = z1[ind]
+    z12 = z1i*z1i
+    z2i = z2[ind]
+    logdiferf[ind] = -z12 + np.log(erfcx(z1i) - erfcx(z2i)*np.exp(z12-z2i**2))
+
+    z1i = z1[ind2]
+    z2i = z2[ind2]
+    logdiferf[ind2] = np.log(erf(z2i) - erf(z1i))
         
     return logdiferf
