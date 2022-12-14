@@ -239,7 +239,7 @@ class EQ_ODE1(Kern):
                 self.decay.gradient[d] = tmpB[ind, :].sum()
                 for q in np.unique(index2):
                     ind2 = np.where(index2 == q)[0]
-                    self.W.gradient[d, q] = tmp[np.ix_(ind[0], ind2[0])].sum()
+                    self.W.gradient[d, q] = tmp[np.ix_(ind, ind2)].sum()
 
     def update_gradients_diag(self, dL_dKdiag, X):
         #index = np.asarray(X, dtype=np.int)
