@@ -205,7 +205,7 @@ class EQ_ODE1(Kern):
                 index -= self.output_dim
                 tmp = dL_dK*self._gkuu_lq(X, index)
                 for q in np.unique(index):
-                    ind = np.where(index == q)
+                    ind = np.where(index == q)[0]
                     self.lengthscale.gradient[q] = tmp[np.ix_(ind[0], ind[0])].sum()
             else:
                 raise NotImplementedError
@@ -235,10 +235,10 @@ class EQ_ODE1(Kern):
             tmpB = dL_dK*gB
             tmp = dL_dK*gSdq
             for d in np.unique(index):
-                ind = np.where(index == d)
+                ind = np.where(index == d)[0]
                 self.decay.gradient[d] = tmpB[ind, :].sum()
                 for q in np.unique(index2):
-                    ind2 = np.where(index2 == q)
+                    ind2 = np.where(index2 == q)[0]
                     self.W.gradient[d, q] = tmp[np.ix_(ind[0], ind2[0])].sum()
 
     def update_gradients_diag(self, dL_dKdiag, X):
@@ -260,7 +260,7 @@ class EQ_ODE1(Kern):
         tmpB = dL_dKdiag*gB
         tmp = dL_dKdiag*gS
         for d in np.unique(index):
-            ind = np.where(index == d)
+            ind = np.where(index == d)[0]
             self.decay.gradient[d] = tmpB[ind, :].sum()
             self.W.gradient[d, :] = tmp[ind].sum(0)
 
@@ -315,7 +315,7 @@ class EQ_ODE1(Kern):
         #Upper triangular indices
         indtri1, indtri2 = np.triu_indices(t.size, 1)
         #Block Diagonal indices among Upper Triangular indices
-        ind = np.where(index[indtri1] == index[indtri2])
+        ind = np.where(index[indtri1] == index[indtri2])[0]
         indr = indtri1[ind]
         indc = indtri2[ind]
         r = t[indr] - t[indc]
@@ -393,7 +393,7 @@ class EQ_ODE1(Kern):
         #Upper triangular indices
         indtri1, indtri2 = np.triu_indices(t.size, 1)
         #Block Diagonal indices among Upper Triangular indices
-        ind = np.where(index[indtri1] == index[indtri2])
+        ind = np.where(index[indtri1] == index[indtri2])[0]
         indr = indtri1[ind]
         indc = indtri2[ind]
         r = t[indr] - t[indc]
@@ -419,7 +419,7 @@ class EQ_ODE1(Kern):
         #Upper triangular indices
         indtri1, indtri2 = np.triu_indices(t.size, 1) #Offset of 1 from the diagonal
         #Block Diagonal indices among Upper Triangular indices
-        ind = np.where(index[indtri1] == index[indtri2])
+        ind = np.where(index[indtri1] == index[indtri2])[0]
         indr = indtri1[ind]
         indc = indtri2[ind]
         r = t[indr] - t[indc]
@@ -633,8 +633,8 @@ class EQ_ODE1(Kern):
 def lnDifErf(z1,z2):
     #Z2 is always positive
     logdiferf = np.zeros(z1.shape)        
-    ind = np.where(z1>0.)
-    ind2 = np.where(z1<=0.)
+    ind = np.where(z1>0.)[0]
+    ind2 = np.where(z1<=0.)[0]
     if ind[0].shape > 0:
         z1i = z1[ind]
         z12 = z1i*z1i
