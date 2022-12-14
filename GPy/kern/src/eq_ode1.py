@@ -206,7 +206,7 @@ class EQ_ODE1(Kern):
                 tmp = dL_dK*self._gkuu_lq(X, index)
                 for q in np.unique(index):
                     ind = np.where(index == q)[0]
-                    self.lengthscale.gradient[q] = tmp[np.ix_(ind[0], ind[0])].sum()
+                    self.lengthscale.gradient[q] = tmp[np.ix_(ind, ind)].sum()
             else:
                 raise NotImplementedError
         else: #Kfu or Knm
